@@ -13,7 +13,9 @@ app.use(
 app.use(express.json());
 
 // routes import
+import { ProductRouter } from './routes/product.routes.js';
 
 //routes declaration
+app.use('/product', ProductRouter);
 
 export { app };

@@ -1,7 +1,7 @@
 export class ApiError extends Error {
   constructor(
     statusCode,
-    message = 'Error accoured while preforming the method',
+    message = 'Error occurred while preforming the method',
     errors = [],
     stack = ''
   ) {

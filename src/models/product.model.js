@@ -19,7 +19,7 @@ const productSchema = new Schema(
       type: Number,
       require: true,
     },
-    ratings: {
+    rating: {
       type: Number,
       require: true,
     },

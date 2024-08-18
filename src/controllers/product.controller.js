@@ -32,16 +32,22 @@ const addProduct = methodHandler(async (req, res) => {
 });
 
 const getProduct = methodHandler(async (req, res) => {
-  const { page, limit, search } = req.query;
+  const { page, limit, search, brand, category } = req.query;
 
   const skip = (page - 1) * limit;
 
-  const products = await Product.find({ name: { $regex: search, $options: 'i' } })
+  const products = await Product.find({
+    name: { $regex: search, $options: 'i' },
+    brand: { $regex: brand, $options: 'i' },
+    category: { $regex: category, $options: 'i' },
+  })
     .skip(skip)
     .limit(limit);
 
   const productsCount = await Product.find({
     name: { $regex: search, $options: 'i' },
+    brand: { $regex: brand, $options: 'i' },
+    category: { $regex: category, $options: 'i' },
   }).countDocuments();
 
   return res
@@ -55,4 +61,9 @@ const getBrands = methodHandler(async (_, res) => {
   return res.status(200).json(brands);
 });
 
-export { addProduct, getProduct, getBrands };
+const getCategories = methodHandler(async (_, res) => {
+  const categories = await Product.distinct('category');
+  return res.status(200).json(categories);
+});
+
+export { addProduct, getProduct, getBrands, getCategories };

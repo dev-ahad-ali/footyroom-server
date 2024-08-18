@@ -32,11 +32,16 @@ const addProduct = methodHandler(async (req, res) => {
 });
 
 const getProduct = methodHandler(async (req, res) => {
-  const documentCount = await Product.countDocuments();
+  const { page, limit } = req.query;
+
+  const skip = (page - 1) * limit;
+
+  const products = await Product.find().skip(skip).limit(limit);
+  const productsCount = products.length;
 
   return res
     .status(200)
-    .json(new ApiResponse(200, documentCount, 'All product fetched successfully'));
+    .json(new ApiResponse(200, [products, productsCount], 'All product fetched successfully'));
 });
 
 export { addProduct, getProduct };

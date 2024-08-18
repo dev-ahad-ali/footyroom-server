@@ -4,9 +4,11 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { methodHandler } from '../utils/methodHandler.js';
 
 const addProduct = methodHandler(async (req, res) => {
-  const { name, image, description, price, rating, category } = req.body;
+  const { name, image, description, price, rating, category, brand } = req.body;
 
-  const isAllValueAvailable = [name, image, description, price, rating, category].every(Boolean);
+  const isAllValueAvailable = [name, image, description, price, rating, category, brand].every(
+    Boolean
+  );
 
   if (!isAllValueAvailable) {
     throw new ApiError(400, 'All fields are required');
@@ -19,6 +21,7 @@ const addProduct = methodHandler(async (req, res) => {
     price,
     rating,
     category,
+    brand,
   });
 
   const addedProductName = await Product.findById(product._id).select('name');
@@ -28,4 +31,12 @@ const addProduct = methodHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, addedProductName, 'Product added successfully'));
 });
 
-export { addProduct };
+const getProduct = methodHandler(async (req, res) => {
+  const documentCount = await Product.countDocuments();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, documentCount, 'All product fetched successfully'));
+});
+
+export { addProduct, getProduct };

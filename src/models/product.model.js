@@ -4,28 +4,32 @@ const productSchema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
       index: true,
     },
     image: {
       type: String,
-      require: true,
+      required: true,
     },
     description: {
       type: String,
-      require: true,
+      required: true,
     },
     price: {
       type: Number,
-      require: true,
+      required: true,
     },
     rating: {
       type: Number,
-      require: true,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
     },
     category: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   { timestamps: true }

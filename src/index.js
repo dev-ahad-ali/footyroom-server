@@ -12,6 +12,7 @@ connectDB()
       console.log('Server Initialize error', error);
       throw error;
     });
+    app.get('/', (req, res) => res.send('FootyRoom on Vercel'));
     app.listen(process.env.PORT || 5000, () => {
       console.log(`Server running on Port : ${process.env.Port || 5000}`);
     });

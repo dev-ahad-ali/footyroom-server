@@ -32,13 +32,16 @@ const addProduct = methodHandler(async (req, res) => {
 });
 
 const getProduct = methodHandler(async (req, res) => {
-  const { page, limit, search, brand, category, minPrice, maxPrice } = req.query;
+  const { page, limit, search, brand, category, minPrice, maxPrice, sort } = req.query;
 
   const skip = (page - 1) * limit;
   const priceRange =
     minPrice && maxPrice ? { $gte: parseInt(minPrice), $lte: parseInt(maxPrice) } : { $gte: 0 };
 
-  console.log(priceRange);
+  let sorting = { _id: 1 };
+
+  if (sort === 'new') sorting = { _id: -1 };
+  if (sort && sort !== 'new') sorting = { price: parseInt(sort) };
 
   const products = await Product.find({
     name: { $regex: search, $options: 'i' },
@@ -47,7 +50,8 @@ const getProduct = methodHandler(async (req, res) => {
     price: priceRange,
   })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .sort(sorting);
 
   const productsCount = await Product.find({
     name: { $regex: search, $options: 'i' },

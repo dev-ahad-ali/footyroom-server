@@ -8,7 +8,7 @@ Run the Project :
 
 - make sure to have the .env file.
 
-* <code>npm install<code>
-* <code>npm run start<code>
+* npm install
+* npm run start
 
 ---
